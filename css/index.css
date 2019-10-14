@@ -1,0 +1,11 @@
+#root {
+	padding: 30px;
+	text-align: center;
+	background-color: #000;
+	height: 100%;
+	font-family: 'Press Start 2P' , 'sans-serif';
+}
+
+canvas {
+	/* border: 2px solid #fff; */
+}
