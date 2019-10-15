@@ -37,14 +37,16 @@ export default class Game {
 			lines: this.lines,
 			nextPiece: this.nextPiece,
 			playfield,
-			isGameOver: this.topOut
+			isGameOver: this.topOut,
+			pieces: this.pieces
 		}
 	}
 
 	reset() {
 		this.score = 0;
-		this.lines = 19;
+		this.lines = 0;
 		this.topOut = false;
+		this.pieces = 0;
 		this.playfield = this.createPlayfield();
 		this.activePiece = this.createPiece();
 		this.nextPiece = this.createPiece();
@@ -150,6 +152,7 @@ export default class Game {
 		this.activePiece.y += 1;
 
 		if (this.hasCollision()) {
+			this.pieces++;
 			this.activePiece.y -= 1;
 			this.lockPiece();
 			let lines = this.clearLines();
@@ -182,15 +185,6 @@ export default class Game {
 		if (this.hasCollision()) {
 			this.activePiece.blocks = blocks;
 		}
-
-		// return;
-
-		// this.activePiece.rotationIndex = (this.activePiece.rotationIndex + 1) % 4;
-		// if (this.hasCollision()) {
-		// 	this.activePiece.rotationIndex = (4 + this.activePiece.rotationIndex - 1) % 4;
-		// } 
-		
-		// return this.activePiece.rotationIndex;
 	}
 
 	hasCollision() {

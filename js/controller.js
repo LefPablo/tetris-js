@@ -1,9 +1,13 @@
 export default class Controller {
-	constructor (game, view) {
+	constructor (game, view, sound) {
 		this.game = game;
 		this.view = view;
 		this.isPlaying = false;
 		this.intervalId = null;
+		this.sound = sound;
+		this.level = game.getState().level;
+		this.lines = game.getState().lines;
+		this.pieces = game.getState().pieces;
 
 		document.addEventListener('keydown', this.handleKeyDown.bind(this));
 		document.addEventListener('keyup', this.handleKeyUp.bind(this));
@@ -15,29 +19,55 @@ export default class Controller {
 		const state = game.getState();
 
 		if (state.isGameOver) {
+			this.isPlaying = false;
+			this.stopTimer();
 			this.view.renderGameOverScreen(state);
 		} else if (this.isPlaying){
 			this.view.renderMainScreen(state);
 		} else if (!view.busy) {
 			this.view.renderPauseScreen();
 		}
+		this.soundPlay(state);
 	}	
+
+	soundPlay(state) {
+		if (state.isGameOver) {
+			this.sound.playSound('gameOver');
+		} else {
+			if (state.level != this.level) {
+				this.sound.playSound('level');
+				this.level = state.level;
+			} else {
+				if (state.lines != this.lines) {
+					this.sound.playSound('line');
+					this.lines = state.lines;
+				}
+				if (state.pieces != this.pieces) {
+					this.sound.playSound('lock');
+					this.pieces = state.pieces;
+				}
+			}
+		}
+	}
 
 	update() {
 		this.game.movePieceDown();
 		this.updateView();
+		this.sound.playSound('down');
 	}
 
 	play () {
 		this.isPlaying = true;	
 		this.startTimer();
 		this.updateView();
+		this.sound.playSound('play');
 	}
 
 	pause () {
 		this.isPlaying = false;
 		this.stopTimer();
 		this.updateView();
+		this.sound.playSound('pause');
 	}
 
 	reset () {
