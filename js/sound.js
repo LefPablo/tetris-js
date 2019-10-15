@@ -4,12 +4,9 @@ export default class Sound {
 		this.level = new Audio();
 		this.lock = new Audio();
 		this.line = new Audio();
-		this.music = new Audio();
 		this.sound = new Audio();
-
-		this.music.src = '../sound/sound.mp3';// Указываем путь к звуку "клика"
-		this.music.loop = true;
-		this.music.autoplay = true;
+		this.music = new Audio();
+		// this.music.src = '../sound/music.mp3';
 	}
 	
 	playSound(name) {
@@ -27,7 +24,7 @@ export default class Sound {
 				this.line.autoplay = true;
 			break;
 			case 'lock':
-				this.lock.src = '../sound/lock.mp3';
+				this.lock.src = '../sound/lock.mp3'; 
 				this.lock.autoplay = true;
 			break;
 			case 'gameOver':
@@ -41,6 +38,12 @@ export default class Sound {
 			case 'play':
 				this.sound.src = '../sound/play.mp3';
 				this.sound.autoplay = true;
+			break;
+			case 'music':
+				// Указываем путь к звуку "клика"
+				this.music.src = '../sound/music.mp3';
+				this.music.loop = true;  
+				this.music.autoplay = true;
 			break;
 		}
 	}
